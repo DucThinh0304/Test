@@ -68,7 +68,7 @@ namespace Bai01
             Console.WriteLine($"\nThe sum of odd numbers is: {OddSum(arr)}");
             Console.WriteLine($"The number of primes is: {CountPrime(arr)}");
             Console.WriteLine($"The smallest square number is: {SquareMin(arr)}");
-            //ThinhdeptraiCuteKhoaito........
+            //ThinhdeptraiCuteKhoaito
         }
     }
 }
