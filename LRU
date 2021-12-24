@@ -1,0 +1,111 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(){
+	int default_A[] = {2, 0, 5, 2, 0, 7, 8, 2, 0, 0, 7};
+	int A[50];
+	int NumOf_frames, frames[5];
+    int n;
+    int choice;
+    printf("\n");
+    printf("  -----Page Replacement Algorithm-----   \n");
+    printf("      1.  Default referenced sequence    \n");
+    printf("      2.  Manual input sequence          \n");
+    printf("\n");
+    do
+    {
+        printf("Your choice: ");
+        scanf("%d", &choice);
+    }while(choice != 1 && choice != 2);
+    if(choice == 2)
+    {
+	    printf("Enter number of element in referenced sequence: ");
+	    scanf("%d", &n);
+	    printf("Referenced sequence: ");
+	    int i;
+	    for(i = 1; i <= n; i++)
+	    {
+	        scanf("%d", &A[i]);
+	    }
+	    A[i] = '\0';
+    }
+    else
+    {
+        int i;
+	    for(i = 0; i < 11; i++)
+	    {
+	        A[i + 1] = default_A[i];
+	    }
+	    A[i + 1] = '\0';
+	    n = 11;
+    }
+    printf("\n");
+    printf("  -----Page Replacement Algorithm-----   \n");
+    printf("Input page frames: ");
+    scanf("%d", &NumOf_frames);
+    printf("\n");
+    
+    int i, j, k, available;
+    int a, b, c;
+    int count = 0;
+    int tmp[5];
+    for (i = 0; i < NumOf_frames; i++)
+			frames[i] = -1; 
+		j = 0;
+		printf("\t|Sequence|\t|Frame  ");
+		for (k = 0; k < NumOf_frames - 1; k++)
+			printf("\t");
+		printf("| \n");
+		for (i = 1; i <= n; i++)
+		{
+			printf("\t|    %d   |\t", A[i]);
+			available = 0;
+			for (k = 0; k < NumOf_frames; k++)
+				if (frames[k] == A[i]) 
+					available = 1;
+			if (available == 0) 
+			{
+
+				if (i <= NumOf_frames)
+				{
+					frames[j] = A[i];
+					j = (j + 1) % NumOf_frames;
+				}
+				else
+				{
+					j = n;
+					for (a = 0; a < NumOf_frames; a++)
+						for (b = i - 1; b >= 0; b--)
+							if (frames[a] == A[b])
+							{
+								tmp[a] = b;
+								b = 0;
+							}
+					for (a = 0; a < NumOf_frames; a++)
+						if (tmp[a] < j)
+						{
+							j = tmp[a];
+							c = a;
+						}
+					for (j = 0; j < NumOf_frames; j++)
+						tmp[j] = -1;
+
+					frames[c] = A[i];
+				}
+				count++;
+				printf("|");
+				for (k = 0; k < NumOf_frames; k++)
+					printf("%d\t", frames[k]);
+				printf("| *");
+			}
+			else
+			{
+				printf("|");
+				for (k = 0; k < NumOf_frames; k++)
+					printf("%d\t", frames[k]);
+				printf("|");
+			}
+			printf("\n");
+		}
+		printf("Number of page faults: %d\n", count);
+}
